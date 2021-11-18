@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models\Taxonomy;
+
+class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
+{
+    protected $attributes = [
+        'weight' => 1000,
+    ];
+
+    /**
+     * It example you can delete :)
+     * Relation - Therm has many articles
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function articles()
+    {
+        return $this->morphedByMany(Article::class, 'termable');
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "name": "fomvasss/laravel-simple-taxonomy",
+    "description": "Create and manage taxonomy (terms) in Laravel App",
+    "type": "composer-package",
+    "keywords": [
+        "taxonomy",
+        "tree",
+        "terms",
+        "categories",
+        "categorization",
+        "nestedset",
+        "laravel",
+        "fomvasss"
+    ],
+    "homepage": "https://github.com/fomvasss/laravel-simple-taxonomy",
+    "authors": [
+        {
+            "name": "Vasyl Fomin",
+            "email": "fomvasss@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php" : ">=7.1.3",
+        "illuminate/support": "^7.0|^8.0",
+        "illuminate/database": "^7.0|^8.0",
+        "kalnoy/nestedset": "^5.0|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fomvasss\\SimpleTaxonomy\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fomvasss\\SimpleTaxonomy\\TaxonomyServiceProvider"
+            ]
+        }
+    }
+}
