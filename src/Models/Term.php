@@ -4,6 +4,7 @@ namespace Fomvasss\SimpleTaxonomy\Models;
 
 use Fomvasss\SimpleTaxonomy\Models\Traits\HasTaxonomies;
 use Fomvasss\SimpleTaxonomy\Models\Traits\HasTaxonomyablesToMany;
+use Fomvasss\SimpleTaxonomy\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
@@ -12,6 +13,7 @@ class Term extends Model
 {
     use HasTaxonomies,
         HasTaxonomyablesToMany,
+        HasUuid,
         NodeTrait;
 
     protected $guarded = ['id'];
@@ -26,7 +28,7 @@ class Term extends Model
     }
 
     /**
-     * Relationships: Current model "has" many terms.
+     * Relationship: Current model "has" many other terms.
      *
      * @return $this
      */
@@ -43,11 +45,10 @@ class Term extends Model
      * @param $query
      * @param $vocabulary
      * @param string|null $vocabularyKey
-     * @return mixed
      */
     public function scopeByVocabulary($query, $vocabulary)
     {
-        return $query->where('vocabulary', $vocabulary);
+        $query->where('vocabulary', $vocabulary);
     }
 
     /**

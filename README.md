@@ -14,21 +14,25 @@ Create and manage taxonomy (terms) in Laravel App.
 composer require fomvasss/laravel-simple-taxonomy
 ```
 
-You can publish the migration with:
+You can publish the migration, config, seeder with:
 
 ```bash
 php artisan vendor:publish --provider="Fomvasss\SimpleTaxonomy\TaxonomyServiceProvider"
 ```
 
-After publishing the migration you can create the `terms` table by running the migrations:
+You can usage the config: `configs/taxonomy.php`
+
+After publishing, you can create the `terms` table by running the migrations:
 
 ```bash
 php artisan migrate
-php artisan db:seed --class=TaxonomySeeder
 ```
 
-Also, You can usage the config: `configs/taxonomy.php` 
+And edit & run seeder:
 
+```bash
+php artisan db:seed --class=TaxonomySeeder
+```
 
 ## Usage
 
@@ -38,6 +42,7 @@ Also, You can usage the config: `configs/taxonomy.php`
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 ## Links
+
 * [https://github.com/lazychaser/laravel-nestedset](https://github.com/lazychaser/laravel-nestedset)
 * [https://en.wikipedia.org/wiki/Taxonomy_(general)](https://en.wikipedia.org/wiki/Taxonomy_(general))
 * [https://en.wikipedia.org/wiki/Nesting_(computing)](https://en.wikipedia.org/wiki/Nesting_(computing))

@@ -5,7 +5,7 @@ namespace Fomvasss\SimpleTaxonomy\Models\Traits;
 use Fomvasss\SimpleTaxonomy\Models\Term;
 
 /**
- * Трейт для пользовательских классов-моделей котории имею таксономию (статьи, товары,...)
+ * Trait for custom model classes that use taxonomy.
  *
  * Trait HasTaxonomies
  *
@@ -14,21 +14,19 @@ use Fomvasss\SimpleTaxonomy\Models\Term;
 trait HasTaxonomies
 {
     /**
-     * Связь:
-     * Сущность текущей модели "относится" к разным термам.
+     * Relationship: Entity current model "refers" to different terms.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function terms()
     {
-        $related = config('taxonomy.term_model', Term::class);
+        $related = config('taxonomy.term_model');
 
         return $this->morphToMany($related, 'termable');
     }
     
     /**
-     * Связь текущей модели с термамы по указанному system_name словаря.
-     * Используется для создание связей с термамы нужного словаря в пользовательских моделях.
+     * Relationship: of the current model, from the term according to the specified vocabulary.
      *
      * @param $vocabulary
      * @param string|null $vocabularyKey
@@ -40,7 +38,43 @@ trait HasTaxonomies
     }
 
     /**
-     * Термы текущей модели по указанному system_name словаря.
+     * @param null $foreignKey
+     * @param null $ownerKey
+     * @return mixed
+     */
+    public function term($foreignKey = null, $ownerKey = null, $relation = null)
+    {
+        $related = config('taxonomy.term_model');
+
+        return $this->belongsTo($related, $foreignKey, $ownerKey, $relation);
+    }
+
+    /**
+     * Сущности по указанным термам с соответствующих указанных словарей, например:
+     * получить все Статьи терма-категории "Политика" (23) с словаря "Категории статтей" И
+     * терма-города "Лондон" (35) или "Киев" (56) с словаря "Города"
+     *
+     * @param $query
+     * @param array $taxonomies Example:
+     *  [
+     *      'categories' => 23,
+     *      'cities' => [35, 56]
+     *  ]
+     * @param string $termKey
+     */
+    public function scopeByTaxonomies($query, array $taxonomies, string $termKey = 'id')
+    {
+        foreach ($taxonomies as $vocabulary => $terms) {
+            $terms = is_array($terms) ? $terms : [$terms];
+            $terms = array_filter($terms);
+            if (count($terms)) {
+                $query->whereHas('terms', fn ($t) => $t->where('vocabulary', $vocabulary)->whereIn($termKey, $terms));
+            }
+        }
+    }
+
+    /**
+     * Terms of the current model according to the specified vocabulary.
      *
      * @param $query
      * @param $vocabulary
@@ -49,55 +83,6 @@ trait HasTaxonomies
      */
     public function scopeTermsByVocabulary($query, $vocabulary)
     {
-        return $query->whereHas('terms', function ($t) use ($vocabulary) {
-            $t->where('vocabulary', $vocabulary);
-        });
-    }
-
-    /**
-     * Сущности по указанным термам с соответствующих
-     * указанных словарей, например:
-     * получить все Статьи терма-категории "WEB-Программирование" (23) с словаря "Категории статтей" И 
-     * терма-города "Киев" (35) или "Москва" (56) с словаря "Города"
-     *
-     * @param $query
-     * @param array $taxonomies Например:
-     *  [
-     *      'article_categories' => 23,
-     *      'cities' => [35, 56]
-     *  ]
-     * @param string $termKey
-     * @param string $vocabularyKey
-     * @return mixed
-     */
-    public function scopeByTaxonomies($query, array $taxonomies, string $termKey = 'id')
-    {
-        foreach ($taxonomies as $vocabulary => $terms) {
-            $terms = is_array($terms) ? $terms : [$terms];
-            if (! empty($terms)) {
-                $query->whereHas('terms', function ($t) use ($vocabulary, $terms, $termKey) {
-                    $t->where('vocabulary', $vocabulary)->whereIn($termKey, $terms);
-                });
-            }
-        }
-
-        return $query;
-    }
-
-
-    /**
-     * Связь:
-     * Сущность текущая модель "имеет" один терм.
-     * Ключ для связи находится в таблице сущности (Ex.: articles.term_id)
-     *
-     * @param null $foreignKey
-     * @param null $ownerKey
-     * @return mixed
-     */
-    public function term($foreignKey = null, $ownerKey = null, $relation = null)
-    {
-        $related = config('taxonomy.term_model', Term::class);
-
-        return $this->belongsTo($related, $foreignKey, $ownerKey, $relation);
+        return $query->whereHas('terms', fn ($t) => $t->where('vocabulary', $vocabulary));
     }
 }

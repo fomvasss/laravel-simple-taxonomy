@@ -13,7 +13,7 @@ return [
     'vocabularies' => [
         // 'categories' => [
         //     'name' => 'Categories',
-        //     'description' => 'Article categories',
+        //     'description' => 'Shop product categories',
         //     'has_hierarchy' => true,
         //     'some_field' => 'Qqq',
         // ],
