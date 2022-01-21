@@ -24,7 +24,7 @@ class CreateTaxonomyTables extends Migration
     public function createTermsTable()
     {
         Schema::create('terms', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id('id');
             $table->uuid('uuid')->index();
 
             $table->string('name');
@@ -44,20 +44,13 @@ class CreateTaxonomyTables extends Migration
         });
     }
 
-
-    /**
-     * Таблица сущностей "привязанных" к термам
-     */
     public function createTermablesTable()
     {
          Schema::create('termables', function (Blueprint $table) {
-             $table->unsignedInteger('term_id');
+             $table->foreignId('term_id')->constrained()->onDelete('CASCADE');
              $table->morphs('termable');
-    
-             $table->foreign('term_id')
-                 ->references('id')
-                 ->on('terms')
-                 ->onDelete('CASCADE');
+             $table->unsignedInteger('weight')->default(0);
+             $table->string('comment')->nullable();
          });
     }
 
