@@ -13,7 +13,6 @@ class Term extends Model
 {
     use HasTaxonomies,
         HasTaxonomyablesToMany,
-        HasUuid,
         NodeTrait;
 
     protected $guarded = ['id'];

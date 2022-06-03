@@ -25,7 +25,6 @@ class CreateTaxonomyTables extends Migration
     {
         Schema::create('terms', function (Blueprint $table) {
             $table->id('id');
-            $table->uuid('uuid')->index();
 
             $table->string('name');
             $table->string('slug')->nullable()->index();
