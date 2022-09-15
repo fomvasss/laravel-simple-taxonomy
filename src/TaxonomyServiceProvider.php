@@ -59,9 +59,9 @@ class TaxonomyServiceProvider extends ServiceProvider
 
     protected function overrideModels()
     {
-        if (! class_exists('App\Models\Term\Taxonomy')) {
+        if (! class_exists('App\Models\Term')) {
             $modelPathStub = __DIR__.'/stubs/models/';
-            $modelPath = $this->checkMakeDir(app_path('Models/Taxonomy')) . '/';
+            $modelPath = $this->checkMakeDir(app_path('Models')) . '/';
 
             $this->publishes([
                 $modelPathStub . 'Term.php.stub' => $modelPath . 'Term.php',
