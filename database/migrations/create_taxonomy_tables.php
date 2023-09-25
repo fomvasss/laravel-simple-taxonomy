@@ -30,11 +30,13 @@ class CreateTaxonomyTables extends Migration
             $table->string('slug')->nullable()->index();
             $table->text('body')->nullable();
 
+
+            $table->integer('weight')->default(0);
+            $table->boolean('has_nested')->default(false);
             // Used Nested https://github.com/lazychaser/laravel-nestedset
             $table->unsignedInteger('_lft')->default(0);
             $table->unsignedInteger('_rgt')->default(0);
             $table->unsignedInteger('parent_id')->nullable();
-            $table->integer('weight')->default(0);
 
             $table->string('vocabulary')->index();
 

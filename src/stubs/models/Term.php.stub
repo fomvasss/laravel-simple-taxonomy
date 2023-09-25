@@ -4,22 +4,46 @@ namespace App\Models;
 
 class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
 {
+    // NEXT RELATIONS, METHODS IS EXAMPLES, YOU CAN DELETE IT:
+
+    const VOCABULARY_TAGS = 'tags';
+    const VOCABULARY_CATEGORIES = 'categories';
+
     protected $attributes = [
         'weight' => 10000,
     ];
 
     /**
-     * Example: Relationship - Term has many articles
-     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function articles()
+    public function productsByTag()
     {
         return $this->morphedByMany(Article::class, 'termable');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function products()
     {
         return $this->hasMany(Product::class, 'category_id');
+    }
+
+    public static function vocabulariesList(string $columnKey = null, string $indexKey = null): array
+    {
+        $records = [
+            [
+                'slug' => 'categories',
+                'name' => 'Categories',
+                'has_nested' => true,
+            ],
+            [
+                'slug' => 'tags',
+                'name' => 'Tags',
+                'has_nested' => false,
+            ],
+        ];
+
+        return self::staticListBuild($records, $columnKey, $indexKey);
     }
 }
