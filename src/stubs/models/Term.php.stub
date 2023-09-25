@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Taxonomy;
+namespace App\Models;
 
 class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
 {
@@ -16,5 +16,10 @@ class Term extends \Fomvasss\SimpleTaxonomy\Models\Term
     public function articles()
     {
         return $this->morphedByMany(Article::class, 'termable');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'category_id');
     }
 }

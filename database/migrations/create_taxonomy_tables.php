@@ -28,8 +28,8 @@ class CreateTaxonomyTables extends Migration
 
             $table->string('name');
             $table->string('slug')->nullable()->index();
-            $table->text('description')->nullable();
-            
+            $table->text('body')->nullable();
+
             // Used Nested https://github.com/lazychaser/laravel-nestedset
             $table->unsignedInteger('_lft')->default(0);
             $table->unsignedInteger('_rgt')->default(0);
