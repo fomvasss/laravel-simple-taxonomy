@@ -1,11 +1,11 @@
 <?php
 
 return [
-    
+
     /*
      * This model will be used to Term.
      */
-    'term_model' => \Fomvasss\Taxonomy\Models\Term::class,
+    'term_model' => \Fomvasss\SimpleTaxonomy\Models\Term::class,
 
     /*
      * Define dictionaries to be in Your project.
