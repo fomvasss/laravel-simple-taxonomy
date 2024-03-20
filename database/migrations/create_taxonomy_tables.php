@@ -25,17 +25,18 @@ class CreateTaxonomyTables extends Migration
     {
         Schema::create('terms', function (Blueprint $table) {
             $table->id('id');
-            $table->uuid('uuid')->index();
 
             $table->string('name');
             $table->string('slug')->nullable()->index();
-            $table->text('description')->nullable();
-            
+            $table->text('body')->nullable();
+
+
+            $table->integer('weight')->default(0);
+            $table->boolean('has_nested')->default(false);
             // Used Nested https://github.com/lazychaser/laravel-nestedset
             $table->unsignedInteger('_lft')->default(0);
             $table->unsignedInteger('_rgt')->default(0);
             $table->unsignedInteger('parent_id')->nullable();
-            $table->integer('weight')->default(0);
 
             $table->string('vocabulary')->index();
 

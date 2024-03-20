@@ -1,29 +1,11 @@
 <?php
 
 return [
-    
+
     /*
      * This model will be used to Term.
      */
-    'term_model' => \Fomvasss\Taxonomy\Models\Term::class,
-
-    /*
-     * Define dictionaries to be in Your project.
-     */
-    'vocabularies' => [
-        // 'categories' => [
-        //     'name' => 'Categories',
-        //     'description' => 'Shop product categories',
-        //     'has_hierarchy' => true,
-        //     'some_field' => 'Qqq',
-        // ],
-
-        // 'tags' => [
-        //     'name' => 'Tags',
-        //     'description' => 'Tags for articles',
-        //     'has_hierarchy' => false,
-        // ],
-    ],
+    'term_model' => \Fomvasss\SimpleTaxonomy\Models\Term::class,
 
     /*
      * Apply global scopes for model terms.
